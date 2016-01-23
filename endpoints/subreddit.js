@@ -19,7 +19,7 @@ exports.getTopPics = function(subreddit){
                     !res.body.data ||
                     !res.body.data.children
                 ){
-                    reject('No pictures of subreddit does not exist');
+                    reject('No pictures or subreddit does not exist');
                 }
 
                 const posts = getPosts(res.body);
