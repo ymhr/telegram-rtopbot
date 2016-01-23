@@ -55,7 +55,9 @@ const generateResponse = (posts) => {
                 title: image.title,
                 caption:image.title,
                 photo_url: image.photo_url,
-                thumb_url: image.thumb_url
+                thumb_url: image.thumb_url,
+                photo_width: image.photo_width,
+                photo_height: image.photo_height
             }
         });
 
@@ -68,7 +70,10 @@ const getImages = (posts) => {
         if(post.data.domain.indexOf('imgur.com') > -1){
             if(images.length < 50){
                 let url = post.data.url;
-                data.photo_url = generateImageUrl(url)
+                // data.photo_url = generateImageUrl(url)
+                data.photo_url = getSourceImage(post.data);
+                data.photo_width = getSourceImageWidth(post.data);
+                data.photo_height = getSourceImageHeight(post.data);
                 // data.thumb_url = generateThumbail(url);
                 data.thumb_url = post.data.thumbnail;
                 data.title = post.data.title;
@@ -92,17 +97,35 @@ const getSourceImage = (data) => {
     return image;
 }
 
-const generateImageUrl= (url) => addImageExtension(removeImageExtensions(url));
-const generateThumbail = (url) => addImageExtension(getImageThumbnail(removeImageExtensions(url)));
+const getSourceImageWidth = (data) => {
+    if(!data.preview) return null;
+    let image = null;
+    data.preview.images.forEach((images, index) => {
+        image = images.source.height;
+    });
+    return image;
+}
 
-const getImageThumbnail = (url) => url+'s';
+const getSourceImageHeight = (data) => {
+    if(!data.preview) return null;
+    let image = null;
+    data.preview.images.forEach((images, index) => {
+        image = images.source.width;
+    });
+    return image;
+}
 
-const removeImageExtensions = (url) => url.replace(/(\.jpg|\.jpg|\.png|\.gif)/g, '');
-
-const addImageExtension = (url) => {
-
-        if(url.indexOf('jpeg') === -1)
-            return url+'.jpeg'
-
-        return url;
-};
+// const generateImageUrl= (url) => addImageExtension(removeImageExtensions(url));
+// const generateThumbail = (url) => addImageExtension(getImageThumbnail(removeImageExtensions(url)));
+//
+// const getImageThumbnail = (url) => url+'s';
+//
+// const removeImageExtensions = (url) => url.replace(/(\.jpg|\.jpg|\.png|\.gif)/g, '');
+//
+// const addImageExtension = (url) => {
+//
+//         if(url.indexOf('jpeg') === -1)
+//             return url+'.jpeg'
+//
+//         return url;
+// };
