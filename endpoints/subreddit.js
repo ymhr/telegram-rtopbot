@@ -20,6 +20,7 @@ exports.getTopPics = function(subreddit){
                     !res.body.data.children
                 ){
                     reject('No pictures or subreddit does not exist');
+                    return;
                 }
 
                 const posts = getPosts(res.body);
@@ -66,8 +67,9 @@ const getImages = (posts) => {
         let data = {};
         if(post.data.domain.indexOf('imgur.com') > -1){
             if(images.length < 50){
-                data.photo_url = getSourceImage(post.data.preview);
-                data.thumb_url = post.data.thumbnail;
+                let url = post.data.url;
+                data.photo_url = generateImageUrl(url)
+                data.thumb_url = generateThumbail(url);
                 data.title = post.data.title;
 
                 if(data.photo_url !== null){
@@ -80,11 +82,26 @@ const getImages = (posts) => {
     return images;
 }
 
-const getSourceImage = (preview) => {
-    if(!preview) return null;
+const getSourceImage = (data) => {
+    if(!data.preview) return null;
     let image = null;
-    preview.images.forEach((images, index) => {
+    data.preview.images.forEach((images, index) => {
         image = images.source.url;
     });
     return image;
 }
+
+const generateImageUrl= (url) => addImageExtension(removeImageExtensions(url));
+const generateThumbail = (url) => addImageExtension(getImageThumbnail(removeImageExtensions(url)));
+
+const getImageThumbnail = (url) => url+'s';
+
+const removeImageExtensions = (url) => url.replace(/(\.jpg|\.jpg|\.png|\.gif)/g, '');
+
+const addImageExtension = (url) => {
+
+        if(url.indexOf('jpeg') === -1)
+            return url+'.jpeg'
+
+        return url;
+};
