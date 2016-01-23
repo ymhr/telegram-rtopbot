@@ -69,7 +69,8 @@ const getImages = (posts) => {
             if(images.length < 50){
                 let url = post.data.url;
                 data.photo_url = generateImageUrl(url)
-                data.thumb_url = generateThumbail(url);
+                // data.thumb_url = generateThumbail(url);
+                data.thumb_url = post.data.thumbnail;
                 data.title = post.data.title;
 
                 if(data.photo_url !== null){
