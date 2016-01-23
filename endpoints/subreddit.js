@@ -25,6 +25,8 @@ exports.getTopPics = function(subreddit){
                 const posts = getPosts(res.body);
                 const response = generateResponse(res.body);
 
+                console.log(response);
+
                 resolve(response);
             });
     });
@@ -44,7 +46,7 @@ const generateResponse = (posts) => {
     let i = 0;
 
     return images
-        .filter(image => image.url !== null)
+        .filter(image => image.photo_url !== null)
         .map(image => {
             return {
                 type: 'photo',
