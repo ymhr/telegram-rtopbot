@@ -76,7 +76,7 @@ const getImages = (posts) => {
                 data.photo_height = getSourceImageHeight(post.data);
                 // data.thumb_url = generateThumbail(url);
                 data.thumb_url = post.data.thumbnail;
-                data.title = post.data.title;
+                data.title = post.data.title + ' - via ' + post.data.subreddit;
 
                 if(data.photo_url !== null){
                     images.push(data);
@@ -114,18 +114,3 @@ const getSourceImageHeight = (data) => {
     });
     return image;
 }
-
-// const generateImageUrl= (url) => addImageExtension(removeImageExtensions(url));
-// const generateThumbail = (url) => addImageExtension(getImageThumbnail(removeImageExtensions(url)));
-//
-// const getImageThumbnail = (url) => url+'s';
-//
-// const removeImageExtensions = (url) => url.replace(/(\.jpg|\.jpg|\.png|\.gif)/g, '');
-//
-// const addImageExtension = (url) => {
-//
-//         if(url.indexOf('jpeg') === -1)
-//             return url+'.jpeg'
-//
-//         return url;
-// };
