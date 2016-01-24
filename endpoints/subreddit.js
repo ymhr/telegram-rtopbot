@@ -6,7 +6,6 @@ const superagent = require('superagent');
 const endPoint = 'http://www.reddit.com/r/';
 
 exports.getTopPics = function(subreddit){
-    console.log('called');
     const url = generateUrl(subreddit);
 
     return new Promise((resolve, reject) => {
