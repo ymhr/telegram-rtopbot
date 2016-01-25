@@ -22,7 +22,6 @@ exports.getTopPics = function(subreddit){
                     return;
                 }
 
-                const posts = getPosts(res.body);
                 const response = generateResponse(res.body);
 
                 console.log(response);
@@ -35,10 +34,6 @@ exports.getTopPics = function(subreddit){
 
 const generateUrl = (subreddit) => {
     return endPoint + subreddit + '.json'
-}
-
-const getPosts = (results) => {
-    return results.data.children;
 }
 
 const generateResponse = (posts) => {
