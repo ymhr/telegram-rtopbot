@@ -38,7 +38,6 @@ const generateUrl = (subreddit) => {
 
 const generateResponse = (posts) => {
     let images = getImages(posts.data.children);
-    let i = 0;
 
     return images
         .filter(image => image.photo_url !== null)
